@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { IRouter } from './interfaces/IRouter';
 import { successResponse, errorResponse } from './response';
+import ArticleHandler from '../handlers/ArticleHandler';
 
 const router = Router();
 
@@ -8,9 +9,13 @@ class ArticleRouter implements IRouter {
   get routes (): Router {
     router.get(
       '/:id',
-      async (_req: Request, res: Response): Promise<Response<any, Record<string, any>>> => {
+      async (req: Request, res: Response): Promise<Response<any, Record<string, any>>> => {
         try {
-          return successResponse(res, { article: {} });
+          const { params } = req;
+          const { id } = params;
+          const article = await ArticleHandler.get(id);
+
+          return successResponse(res, { article });
         } catch (err) {
           return errorResponse(res, err);
         }
@@ -21,7 +26,8 @@ class ArticleRouter implements IRouter {
       '/',
       async (req: Request, res: Response): Promise<Response<any, Record<string, any>>> => {
         try {
-          return successResponse(res, { article: {} });
+          const article = await ArticleHandler.create(req.body);
+          return successResponse(res, { article });
         } catch (err) {
           return errorResponse(res, err);
         }
@@ -32,7 +38,10 @@ class ArticleRouter implements IRouter {
       '/:id',
       async (req: Request, res: Response): Promise<Response<any, Record<string, any>>> => {
         try {
-          return successResponse(res, { isDeleted: true });
+          const { params } = req;
+          const { id } = params;
+          const result = await ArticleHandler.delete(id);
+          return successResponse(res, { isDeleted: result });
         } catch (err) {
           return errorResponse(res, err);
         }
