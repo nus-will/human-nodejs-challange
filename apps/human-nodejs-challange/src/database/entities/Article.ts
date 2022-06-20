@@ -1,4 +1,6 @@
+import { Validate } from 'class-validator';
 import { Entity, Column } from 'typeorm';
+import { ArticleSlugValidation } from '../validators/Article';
 import { Base, IBase } from './Base';
 
 export interface IArticle extends IBase {
@@ -13,6 +15,7 @@ export class Article extends Base implements IArticle {
   title: string
 
   @Column({ name: 'slug' })
+  @Validate(ArticleSlugValidation)
   slug: string
 
   @Column({ name: 'published_at', nullable: true })

@@ -5,11 +5,13 @@
   "scripts": {
     "start": "nx serve",
     "build": "nx build",
-    "test": "nx test"
+    "test": "nx test",
+    "db:migrate": "typeorm-ts-node-commonjs migration:run -d apps/human-nodejs-challange/src/database/data-source.ts"
   },
   "private": true,
   "dependencies": {
     "@types/cors": "^2.8.12",
+    "class-validator": "^0.13.2",
     "cors": "^2.8.5",
     "express": "4.17.2",
     "mysql2": "^2.3.3",

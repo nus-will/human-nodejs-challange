@@ -2,12 +2,13 @@ import application from './app';
 
 import { Application } from 'express';
 import database from './database';
+import { config } from './config/config';
 
 async function startApiServer() {
   await database.setup();
   const app: Application = await application.server();
-  app.listen(process.env.NX_PORT, () => {
-    console.log(`Listening on port ${process.env.NX_PORT} in ${process.env.NODE_ENV} mode`);
+  app.listen(config.PORT, () => {
+    console.log(`Listening on port ${config.PORT} in ${config.NODE_ENV} mode`);
   });
 
   return app;

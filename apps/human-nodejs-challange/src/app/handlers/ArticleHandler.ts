@@ -3,6 +3,7 @@ import { Article } from '../../database/entities/Article';
 import { AppDataSource } from '../../database/data-source';
 import IArticleHandler from './interfaces/IArticleHandler';
 import { Repository } from 'typeorm';
+import { validate } from 'class-validator';
 
 class ArticleHandler implements IArticleHandler {
   repo: Repository<Article>;
@@ -27,6 +28,13 @@ class ArticleHandler implements IArticleHandler {
       newArticle.title = payload.title;
       newArticle.slug = payload.slug;
       newArticle.publishedAt = payload.publishedAt;
+
+      const errors = await validate(newArticle, { stopAtFirstError: true });
+
+      if (errors.length) {
+        throw Error(JSON.stringify(errors[0].constraints))
+      }
+
       const savedArticle = await this.repo.save(newArticle);
 
       return savedArticle;
