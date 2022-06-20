@@ -1,21 +1,26 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
+import application from './app';
 
-import * as express from 'express';
-import Database from './database';
+import { Application } from 'express';
+import database from './database';
 
-Database.setup();
+async function startApiServer() {
+  await database.setup();
+  const app: Application = await application.server();
+  app.listen(process.env.NX_PORT, () => {
+    console.log(`Listening on port ${process.env.NX_PORT} in ${process.env.NODE_ENV} mode`);
+  });
 
-const app = express();
+  return app;
+}
 
-app.get('/api', (req, res) => {
-  res.send({ message: 'Welcome to human-nodejs-challange!' });
+startApiServer();
+
+process.on("uncaughtException", e => {
+  console.log(e);
+  process.exit(1);
 });
 
-const port = process.env.port || 3333;
-const server = app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}/api`);
+process.on("unhandledRejection", e => {
+  console.log(e);
+  process.exit(1);
 });
-server.on('error', console.error);

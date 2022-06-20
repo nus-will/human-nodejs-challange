@@ -9,7 +9,10 @@
   },
   "private": true,
   "dependencies": {
+    "@types/cors": "^2.8.12",
+    "cors": "^2.8.5",
     "express": "4.17.2",
+    "mysql2": "^2.3.3",
     "tslib": "^2.3.0",
     "typeorm": "^0.3.6"
   },
