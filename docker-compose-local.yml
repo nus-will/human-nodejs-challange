@@ -1,0 +1,32 @@
+version: '3'
+services:
+  api:
+    image: node:16.15.0
+    command: npm run start
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - 3333:3333
+    depends_on:
+      - db
+
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: test
+      MYSQL_USER: nuswill
+      MYSQL_PASSWORD: RaNdOMSt0nGP@assW0rd
+      MYSQL_DATABASE: human_nodejs_challange
+    volumes:
+      - ./dockerdb/mount:/var/lib/mysql
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
