@@ -20,4 +20,7 @@ export class Article extends Base implements IArticle {
 
   @Column({ name: 'published_at', nullable: true })
   publishedAt: Date
+
+  @Column({ name: 'private', default: false })
+  private: boolean
 }

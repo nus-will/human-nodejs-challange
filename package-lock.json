@@ -38,7 +38,7 @@
         "eslint": "~8.15.0",
         "eslint-config-prettier": "8.1.0",
         "jest": "27.5.1",
-        "nx": "14.3.6",
+        "nx": "^14.3.6",
         "prettier": "^2.6.2",
         "ts-jest": "27.1.4",
         "ts-node": "~10.8.0",
