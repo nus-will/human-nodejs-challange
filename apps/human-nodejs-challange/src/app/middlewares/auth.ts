@@ -5,16 +5,15 @@ import { unauthorizedResponse } from "../routes/response";
 
 export const auth = (req: Request, res: Response, next: NextFunction): Response<any, Record<string, any>> => {
   try {
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1]
-
-    if (token == null) {
+    const token = req.cookies.access_token;
+    if (!token) {
       throw Error('invalid token');
     }
 
     jwt.verify(token, config.JWT_SECRET);
+    req.isLoggedIn = true;
 
-    next()
+    next();
   } catch (error) {
     return unauthorizedResponse(res, error);
   }

@@ -4,6 +4,7 @@ import { successResponse, errorResponse } from './response';
 import UserHandler from '../handlers/UserHandler';
 
 const router = Router();
+const EXPIRE_TOKEN_DURATION = 60 * 60 * 1000;
 
 class UserRouter implements IRouter {
   get routes (): Router {
@@ -24,7 +25,9 @@ class UserRouter implements IRouter {
       async (req: Request, res: Response): Promise<Response<any, Record<string, any>>> => {
         try {
           const token = await UserHandler.login(req.body);
-          return successResponse(res, { token });
+
+          res.cookie('access_token', token, { httpOnly: true, expires: new Date(Date.now() + EXPIRE_TOKEN_DURATION) });
+          return successResponse(res, { isLoggedIn: true })
         } catch (err) {
           return errorResponse(res, err);
         }
