@@ -8,6 +8,19 @@ const router = Router();
 class ArticleRouter implements IRouter {
   get routes (): Router {
     router.get(
+      '/published',
+      async (_req: Request, res: Response): Promise<Response<any, Record<string, any>>> => {
+        try {
+          const articles = await ArticleHandler.getPublished();
+
+          return successResponse(res, { articles });
+        } catch (err) {
+          return errorResponse(res, err);
+        }
+      }
+    )
+
+    router.get(
       '/:id',
       async (req: Request, res: Response): Promise<Response<any, Record<string, any>>> => {
         try {

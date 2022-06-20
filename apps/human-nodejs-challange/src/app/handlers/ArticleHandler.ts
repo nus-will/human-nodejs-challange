@@ -2,9 +2,8 @@
 import { Article } from '../../database/entities/Article';
 import { AppDataSource } from '../../database/data-source';
 import IArticleHandler from './interfaces/IArticleHandler';
-import { Repository } from 'typeorm';
+import { Repository, LessThanOrEqual } from 'typeorm';
 import { validate } from 'class-validator';
-
 class ArticleHandler implements IArticleHandler {
   repo: Repository<Article>;
 
@@ -56,6 +55,18 @@ class ArticleHandler implements IArticleHandler {
       await this.repo.delete(article.id);
 
       return true;
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async getPublished(): Promise<Article[]> {
+    try {
+      const articles = await this.repo.findBy({
+        publishedAt: LessThanOrEqual(new Date()),
+      });
+
+      return articles;
     } catch (error) {
       throw error
     }
