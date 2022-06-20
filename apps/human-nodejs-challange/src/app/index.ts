@@ -1,6 +1,6 @@
 import * as express from 'express';
 import * as cors from 'cors';
-// import baseRouter from './routes/index';
+import baseRouter from './routes/index';
 
 interface IApi {
   server(): Promise<express.Application>;
@@ -12,7 +12,7 @@ class Api implements IApi {
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     app.use(cors());
-    // app.use('/api/v1', baseRouter.routes);
+    app.use('/api/v1', baseRouter.routes);
 
     app.get('/', (_req: express.Request, res: express.Response) => {
       res.send('Welcome to NUS express application!');
