@@ -4,6 +4,9 @@
  */
 
 import * as express from 'express';
+import Database from './database';
+
+Database.setup();
 
 const app = express();
 
