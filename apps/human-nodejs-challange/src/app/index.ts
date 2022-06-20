@@ -17,6 +17,11 @@ class Api implements IApi {
     app.get('/', (_req: express.Request, res: express.Response) => {
       res.send('Welcome to NUS express application!');
     });
+
+    app.use((req: express.Request, res: express.Response) => {
+      res.status(404).json({ status: 'error', requestedPath: req.path })
+    })
+
     return app;
   }
 }
