@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import { IRouter } from './interfaces/IRouter';
 import { successResponse, errorResponse } from './response';
 import ArticleHandler from '../handlers/ArticleHandler';
+import { auth } from '../middlewares/auth';
 
 const router = Router();
 
@@ -37,6 +38,7 @@ class ArticleRouter implements IRouter {
 
     router.post(
       '/',
+      auth,
       async (req: Request, res: Response): Promise<Response<any, Record<string, any>>> => {
         try {
           const article = await ArticleHandler.create(req.body);
@@ -49,6 +51,7 @@ class ArticleRouter implements IRouter {
 
     router.delete(
       '/:id',
+      auth,
       async (req: Request, res: Response): Promise<Response<any, Record<string, any>>> => {
         try {
           const { params } = req;

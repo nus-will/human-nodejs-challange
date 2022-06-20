@@ -19,6 +19,18 @@ class UserRouter implements IRouter {
       }
     )
 
+    router.post(
+      '/login',
+      async (req: Request, res: Response): Promise<Response<any, Record<string, any>>> => {
+        try {
+          const token = await UserHandler.login(req.body);
+          return successResponse(res, { token });
+        } catch (err) {
+          return errorResponse(res, err);
+        }
+      }
+    )
+
     return router;
   }
 }

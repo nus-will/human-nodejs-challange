@@ -1,6 +1,5 @@
 import { Entity, Column } from 'typeorm';
 import { Base, IBase } from './Base';
-import { Exclude } from 'class-transformer';
 
 export interface IUser extends IBase {
   username: string,
@@ -13,6 +12,5 @@ export class User extends Base implements IUser {
   username: string
 
   @Column({ name: 'password', select: false })
-  @Exclude({ toPlainOnly: true })
   password: string
 }
